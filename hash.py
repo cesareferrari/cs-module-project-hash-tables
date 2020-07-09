@@ -1,41 +1,27 @@
-my_arr = ["hello", "world", "how", "are", "you"]
-my_arr[4]
-
-# takes a string
-# returns a number
-
-my_alphabet = {'a': 0, 'b': 1}
-
 def my_hash(s):
-    total = 0
-    for char in s:
-        total += my_alphabet[char]
-
-    return total
-
-# ASCII assigns numbers to letters
-
-ord('a')  # 97
-ord('b')  # 98
-
-
-'a'.encode()
-
-
-def my_hash(s):
-    s_utf8 = s.encode()
+    # encode the string
+    sb = s.encode()
 
     total = 0
 
-    for c in s_utf8:
-        total += c
+    for b in sb:
+        total += b
 
-    return total
+    return total % 8
 
-hello_index = my_hash("hello")
+def get_value(key):
+    # hash "Hello"
+    current_hash = my_hash(key)
+    # retrieve value at the hash
+    return hash_table[current_hash]
 
-my_arr = [None] * 5
+hash_table = [None] * 8
 
-hello_index = hello_index % len(my_arr)
+hello_hash = my_hash("Hello")
+hash_table[hello_hash] = "World!"
 
-my_arr[hello_index] = "hello"
+print(hello_hash)
+print(hash_table)
+
+print(get_value("Hello"))
+
