@@ -22,8 +22,12 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = capacity
-        self.storage = [None] * capacity
+        if capacity < MIN_CAPACITY:
+            self.capacity = MIN_CAPACITY
+        else:
+            self.capacity = capacity
+
+        self.storage = [None] * self.capacity
 
 
     def get_num_slots(self):
@@ -37,6 +41,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return len(self.storage)
 
 
     def get_load_factor(self):
@@ -46,6 +51,18 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+    # simple hashing function for initial testing
+    # don't use in production
+    def my_hash(self, key):
+        key_utf8 = key.encode()
+
+        total = 0
+
+        for char in key_utf8:
+            total += char
+
+        return total
 
 
     def fnv1(self, key):
@@ -72,8 +89,9 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.my_hash(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -84,6 +102,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.storage[self.hash_index(key)] = value
 
 
     def delete(self, key):
@@ -106,6 +125,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.storage[self.hash_index(key)]
 
 
     def resize(self, new_capacity):
