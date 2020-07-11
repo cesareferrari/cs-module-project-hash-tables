@@ -22,7 +22,6 @@ def my_hash(s):
 
     return total % len(hash_table)
 
-# inserts a value into hash table
 def put(key, value):
     index = my_hash(key)
     hash_table[index] = value
@@ -30,6 +29,10 @@ def put(key, value):
 def get(key):
     index = my_hash(key)
     return hash_table[index]
+
+def delete(key):
+    index = my_hash(key)
+    hash_table[index] = None
 
 
 print(hash_table)

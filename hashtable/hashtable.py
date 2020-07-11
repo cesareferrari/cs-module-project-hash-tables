@@ -120,6 +120,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.storage[self.hash_index(key)] = None
 
 
     def get(self, key):
