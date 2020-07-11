@@ -1,8 +1,17 @@
-def djb2(key):
-    pass
-
-
 hash_table = [None] * 8
+
+def djb2(key):
+    hash = 5381
+
+    for char in key:
+        hash = ( (hash << 5) + hash ) + ord(char)
+
+    return hash
+
+
+def hash_index(key):
+    return djb2(key) % len(hash_table)
+
 
 def my_hash(s):
     s_utf8 = s.encode()
