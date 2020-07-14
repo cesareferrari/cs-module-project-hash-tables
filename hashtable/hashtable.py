@@ -10,10 +10,6 @@ class HashTableEntry:
     def __repr__(self):
         return f"<{self.key}: {self.value}>"
 
-class HashTableList:
-    def __init__(self):
-        self.head = None
-
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -104,6 +100,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         return self.my_hash(key) % self.capacity
+
         # return self.fnv1(key) % self.capacity
 
         # return self.djb2(key) % self.capacity
@@ -117,9 +114,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
-        # implementation with only the value
-        # self.storage[self.hash_index(key)] = value
 
         entry = HashTableEntry(key, value)
         index = self.hash_index(key)
@@ -142,31 +136,6 @@ class HashTable:
             current.next = entry
 
 
-        """
-        entry = HashTableEntry(key, value)
-        i = self.hash_index(key)
-
-        # when slot is empty, just add the entry and return
-        if self.storage[i] is None:
-            self.storage[i] = entry
-            return entry
-
-        # if slot is not empty, traverse the linked list until you find 
-        # the next is none (list tail)
-        while self.storage[i].next is not None:
-            # if the element key is same as entry key
-            # overwrite the value and return
-            if self.storage[i].key == key:
-                self.storage[i].value = value
-                return entry
-            else:
-                # We have reached the end of the list, add the entry and return
-                self.storage[i].next = entry
-                return entry
-        """
- 
-
-
     def delete(self, key):
         """
         Remove the value stored with the given key.
@@ -176,7 +145,17 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.storage[self.hash_index(key)] = None
+        # self.storage[self.hash_index(key)] = None
+
+        index = self.hash_index(key)
+        current = self.storage[index]
+
+        if current is None:
+            return "No key found"
+
+        if current.key == key:
+            self.storage[index] = current.next
+
 
 
     def get(self, key):
@@ -188,7 +167,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # return self.storage[self.hash_index(key)]
 
         index = self.hash_index(key)
         current = self.storage[index]
