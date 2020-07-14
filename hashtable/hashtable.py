@@ -99,11 +99,11 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        return self.my_hash(key) % self.capacity
+        # return self.my_hash(key) % self.capacity
 
         # return self.fnv1(key) % self.capacity
 
-        # return self.djb2(key) % self.capacity
+        return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -173,13 +173,11 @@ class HashTable:
 
         while current is not None:
             if current.key == key:
-                return current
+                return current.value
 
             current = current.next
 
         return None
-
-
 
 
     def resize(self, new_capacity):
