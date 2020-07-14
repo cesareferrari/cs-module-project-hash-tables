@@ -7,6 +7,13 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def __repr__(self):
+        return f"<{self.key}: {self.value}>"
+
+class HashTableList:
+    def __init__(self):
+        self.head = None
+
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -20,7 +27,7 @@ class HashTable:
     Implement this.
     """
 
-    def __init__(self, capacity):
+    def __init__(self, capacity=8):
         # Your code here
         if capacity < MIN_CAPACITY:
             self.capacity = MIN_CAPACITY
@@ -110,7 +117,36 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        # implementation with only the value
         # self.storage[self.hash_index(key)] = value
+
+        entry = HashTableEntry(key, value)
+        index = self.hash_index(key)
+        head = self.storage[index]
+
+        if head is None:
+            self.storage[index] = entry
+        else:
+            print('adding to the list')
+            current = head
+
+            while current.next is not None:
+                if current.key == key:
+                    current.value = value
+                    return None
+                else:
+                    current = current.next
+
+            current.next = entry
+
+            
+
+
+
+
+
+        """
 
         entry = HashTableEntry(key, value)
         i = self.hash_index(key)
@@ -132,6 +168,7 @@ class HashTable:
                 # We have reached the end of the list, add the entry and return
                 self.storage[i].next = entry
                 return entry
+        """
  
 
 

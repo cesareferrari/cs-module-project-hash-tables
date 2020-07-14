@@ -102,7 +102,6 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-
     def find(self, value):
         current = self.head
 
