@@ -52,7 +52,7 @@ class HashTable:
         """
         # Your code here
 
-    # simple hashing function for initial testing
+    # my simple hashing function for initial testing
     # don't use in production
     def my_hash(self, key):
         key_utf8 = key.encode()
@@ -73,6 +73,7 @@ class HashTable:
         """
 
         # Your code here
+        # implemented other hashing function
 
 
     def djb2(self, key):
@@ -95,9 +96,10 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        # return self.my_hash(key) % self.capacity
+        return self.my_hash(key) % self.capacity
         # return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -108,7 +110,29 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.storage[self.hash_index(key)] = value
+        # self.storage[self.hash_index(key)] = value
+
+        entry = HashTableEntry(key, value)
+        i = self.hash_index(key)
+
+        # when slot is empty, just add the entry and return
+        if self.storage[i] is None:
+            self.storage[i] = entry
+            return entry
+
+        # if slot is not empty, traverse the linked list until you find 
+        # the next is none (list tail)
+        while self.storage[i].next is not None:
+            # if the element key is same as entry key
+            # overwrite the value and return
+            if self.storage[i].key == key:
+                self.storage[i].value = value
+                return entry
+            else:
+                # We have reached the end of the list, add the entry and return
+                self.storage[i].next = entry
+                return entry
+ 
 
 
     def delete(self, key):
