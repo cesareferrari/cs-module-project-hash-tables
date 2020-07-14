@@ -128,26 +128,21 @@ class HashTable:
         if head is None:
             self.storage[index] = entry
         else:
-            print('adding to the list')
             current = head
 
             while current.next is not None:
+                # overwrite value if key is present
                 if current.key == key:
                     current.value = value
                     return None
                 else:
                     current = current.next
 
+            # add entry to tail
             current.next = entry
-
-            
-
-
-
 
 
         """
-
         entry = HashTableEntry(key, value)
         i = self.hash_index(key)
 
@@ -193,7 +188,20 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.storage[self.hash_index(key)]
+        # return self.storage[self.hash_index(key)]
+
+        index = self.hash_index(key)
+        current = self.storage[index]
+
+        while current is not None:
+            if current.key == key:
+                return current
+
+            current = current.next
+
+        return None
+
+
 
 
     def resize(self, new_capacity):
