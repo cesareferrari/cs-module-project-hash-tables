@@ -23,7 +23,7 @@ class HashTable:
     Implement this.
     """
 
-    def __init__(self, capacity=8):
+    def __init__(self, capacity):
         # Your code here
         if capacity < MIN_CAPACITY:
             self.capacity = MIN_CAPACITY
@@ -46,6 +46,20 @@ class HashTable:
         # Your code here
         return len(self.storage)
 
+    def linked_list_length(self, head):
+        count = 0
+
+        if head is None:
+            return count
+        else:
+            current = head
+
+            while current.next is not None:
+                count += 1
+
+        return count
+
+
 
     def get_load_factor(self):
         """
@@ -54,6 +68,20 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        count = 0
+
+        for i in range(0, len(self.storage)):
+            current = self.storage[i]
+            
+            if current is not None:
+                count += 1
+
+                if current.next:
+                    current = current.next
+                    count += 1
+
+        return count / self.capacity
+
 
     # my simple hashing function for initial testing
     # don't use in production
@@ -99,11 +127,9 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        # return self.my_hash(key) % self.capacity
-
+        return self.my_hash(key) % self.capacity
         # return self.fnv1(key) % self.capacity
-
-        return self.djb2(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -126,6 +152,7 @@ class HashTable:
 
             while current.next is not None:
                 # overwrite value if key is present
+                # still not working correctly
                 if current.key == key:
                     current.value = value
                     return None
