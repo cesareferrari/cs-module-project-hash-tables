@@ -31,6 +31,7 @@ class HashTable:
             self.capacity = capacity
 
         self.storage = [None] * self.capacity
+        self.items = 0
 
 
     def get_num_slots(self):
@@ -68,19 +69,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        count = 0
+        # count = 0
 
-        for i in range(0, len(self.storage)):
-            current = self.storage[i]
+        # for i in range(0, len(self.storage)):
+        #     current = self.storage[i]
             
-            if current is not None:
-                count += 1
+        #     if current is not None:
+        #         count += 1
 
-                if current.next:
-                    current = current.next
-                    count += 1
+        #         if current.next:
+        #             current = current.next
+        #             count += 1
 
-        return count / self.capacity
+        # return count / self.capacity
+
+        return self.items / self.capacity
 
 
     # my simple hashing function for initial testing
@@ -162,7 +165,8 @@ class HashTable:
             # add entry to tail
             current.next = entry
 
-        self.resize(self.capacity * 2)
+        self.items += 1
+        # self.resize(self.capacity * 2)
 
 
     def delete(self, key):
@@ -184,6 +188,8 @@ class HashTable:
 
         if current.key == key:
             self.storage[index] = current.next
+
+        self.items -= 1
 
 
     def get(self, key):
