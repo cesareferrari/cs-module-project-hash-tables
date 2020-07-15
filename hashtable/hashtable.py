@@ -47,20 +47,6 @@ class HashTable:
         # Your code here
         return len(self.storage)
 
-    def linked_list_length(self, head):
-        count = 0
-
-        if head is None:
-            return count
-        else:
-            current = head
-
-            while current.next is not None:
-                count += 1
-
-        return count
-
-
 
     def get_load_factor(self):
         """
@@ -69,21 +55,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # count = 0
-
-        # for i in range(0, len(self.storage)):
-        #     current = self.storage[i]
-            
-        #     if current is not None:
-        #         count += 1
-
-        #         if current.next:
-        #             current = current.next
-        #             count += 1
-
-        # return count / self.capacity
-
-        return self.items / self.capacity
+        return self.items / self.get_num_slots()
 
 
     # my simple hashing function for initial testing
@@ -105,7 +77,6 @@ class HashTable:
 
         Implement this, and/or DJB2.
         """
-
         # Your code here
         # implemented other hashing function
 
@@ -130,9 +101,9 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        return self.my_hash(key) % self.capacity
+        # return self.my_hash(key) % self.capacity
         # return self.fnv1(key) % self.capacity
-        # return self.djb2(key) % self.capacity
+        return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -166,7 +137,9 @@ class HashTable:
             current.next = entry
 
         self.items += 1
-        # self.resize(self.capacity * 2)
+
+        if self.get_load_factor() > 0.7:
+            self.resize(self.get_num_slots() * 2)
 
 
     def delete(self, key):
@@ -178,8 +151,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # self.storage[self.hash_index(key)] = None
-
         index = self.hash_index(key)
         current = self.storage[index]
 
@@ -191,6 +162,9 @@ class HashTable:
 
         self.items -= 1
 
+        # if self.get_load_factor() < 0.2:
+        #     self.resize(self.get_num_slots() // 2)
+
 
     def get(self, key):
         """
@@ -201,7 +175,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
         index = self.hash_index(key)
         current = self.storage[index]
 
@@ -222,9 +195,17 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        if self.get_load_factor() > 0.7:
-            print("time to resize")
+        new_storage = [None] * new_capacity
 
+        for i in range(len(self.storage)):
+            cur = self.storage[i]
+
+            while cur is not None:
+                i = self.hash_index(cur.key)
+                new_storage[i] = HashTableEntry(cur.key, cur.value)
+                cur = cur.next
+
+        self.storage = new_storage
 
 
 if __name__ == "__main__":
