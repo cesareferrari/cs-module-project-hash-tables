@@ -162,6 +162,8 @@ class HashTable:
             # add entry to tail
             current.next = entry
 
+        self.resize(self.capacity * 2)
+
 
     def delete(self, key):
         """
@@ -182,7 +184,6 @@ class HashTable:
 
         if current.key == key:
             self.storage[index] = current.next
-
 
 
     def get(self, key):
@@ -215,6 +216,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        if self.get_load_factor() > 0.7:
+            print("time to resize")
 
 
 
