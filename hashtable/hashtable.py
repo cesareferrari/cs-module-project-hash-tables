@@ -194,14 +194,22 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        # reset number of items
+        self.items = 0
+
+        # create new storage array
         new_storage = [None] * new_capacity
 
         for i in range(len(self.storage)):
             cur = self.storage[i]
+            self.items += 1
 
             while cur is not None:
                 i = self.hash_index(cur.key)
                 new_storage[i] = HashTableEntry(cur.key, cur.value)
+                self.items += 1
+
                 cur = cur.next
 
         self.storage = new_storage
