@@ -101,9 +101,9 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        # return self.my_hash(key) % self.capacity
+        return self.my_hash(key) % self.capacity
         # return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -117,25 +117,24 @@ class HashTable:
 
         entry = HashTableEntry(key, value)
         index = self.hash_index(key)
-        head = self.storage[index]
 
-        if head is None:
-            self.storage[index] = entry
-        else:
-            current = head
+        if self.storage[index] is None:
+           self.storage[index] = entry
 
-            while current.next is not None:
-                # overwrite value if key is present
-                # still not working correctly
-                if current.key == key:
-                    current.value = value
-                    return None
-                else:
-                    current = current.next
+        cur = self.storage[index]
 
-            # add entry to tail
-            current.next = entry
+        while cur is not None:
+            if cur.key == key:
+                cur.value = value
+                return
+            else:
+                prev = cur
+                cur = cur.next
 
+        # we reach the end, point the last element to the entry
+        prev.next = entry
+
+        # increase number of items
         self.items += 1
 
         if self.get_load_factor() > 0.7:

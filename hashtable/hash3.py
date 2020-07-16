@@ -1,3 +1,6 @@
+# exec(open("hashtable.py").read())
+
+
 hash_table = [None] * 8
 
 def my_hash(s):
