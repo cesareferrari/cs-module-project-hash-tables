@@ -198,22 +198,18 @@ class HashTable:
         # reset number of items
         self.items = 0
 
-        # create new storage array
-        new_storage = [None] * new_capacity
+        prev_storage = self.storage
+        self.storage = [None] * new_capacity
+        self.capacity = new_capacity
 
-        for i in range(len(self.storage)):
-            cur = self.storage[i]
+        for item in prev_storage:
+            cur = item
 
             while cur is not None:
-                entry = HashTableEntry(cur.key, cur.value)
-
-                new_index = self.hash_index(entry.key)
-                new_storage[new_index] = entry
-                self.items += 1
-
+                self.put(cur.key, cur.value)
                 cur = cur.next
 
-        self.storage = new_storage
+
 
 
 if __name__ == "__main__":
